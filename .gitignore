@@ -1,0 +1,43 @@
+# LaTeX intermediate and output files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# PDF and other output files
+*.pdf
+*.dvi
+*.ps
+
+# Editor backup files
+*~
+*.bak
+*.swp
+*.swo
+
+# MacOS files
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+
+# latexmk generated files
+latexmkrc
+
+# Temporary files
+*.tmp
+*.temp
+
+# Auto-generated directories
+_auto/

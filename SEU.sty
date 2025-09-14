@@ -1,0 +1,67 @@
+\mode<presentation>
+
+\newif\ifbeamer@secheader
+\beamer@secheaderfalse
+
+%\DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
+\ProcessOptionsBeamer
+
+\useoutertheme[footline=authorinstitutetitle]{smoothbars}
+\makeatletter % [add curpage/total page at the bottom](http://tex.stackexchange.com/questions/100838/beamer-dresden-theme-miniframes-appeareance-and-frame-number-insertion)
+\newcommand{\frameofframes}{/}
+\newcommand{\setframeofframes}[1]{\renewcommand{\frameofframes}{#1}}
+\setbeamertemplate{footline} 
+  {%
+    \begin{beamercolorbox}[colsep=1.5pt]{upper separation line foot}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+      leftskip=.3cm,rightskip=.3cm plus1fil]{author in head/foot}%
+      \leavevmode{\usebeamerfont{author in head/foot}\insertshortauthor}%
+      \hfill%
+      {\usebeamerfont{institute in head/foot}\usebeamercolor[fg]{institute in head/foot}\insertshortinstitute}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+      leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+      {\usebeamerfont{title in head/foot}\insertshorttitle}%
+      \hfill%
+      {\usebeamerfont{frame number}\usebeamercolor[fg]{frame number}\insertframenumber~\frameofframes~\inserttotalframenumber}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[colsep=1.5pt]{lower separation line foot}
+    \end{beamercolorbox}
+  }
+\makeatother
+
+\useinnertheme{circles}
+
+%\useoutertheme{default}
+%\useinnertheme[shadow=true]{rounded}
+
+% ---------- 东南大学配色 ----------
+\xdefinecolor{seu-green}{RGB}{88,117,88}   % 主识别色
+\xdefinecolor{seu-yellow}{RGB}{253,208,0}  % 强调色（仅小面积）
+\xdefinecolor{seu-black}{RGB}{35,24,21}    % 压暗/文字反白
+% 主结构色——只让绿色当“骨架”
+\setbeamercolor{structure}{fg=seu-green}
+% 顶部导航条——扁平、无渐变，直接用不同明度区分
+\setbeamercolor{palette primary}{fg=white,bg=seu-green}
+\setbeamercolor{palette secondary}{fg=white,bg=seu-black}
+\setbeamercolor{palette tertiary}{fg=white,bg=seu-green!70!black}  % 单层混合，非渐变
+\setbeamercolor{palette quaternary}{fg=white,bg=seu-black!80!black}
+% 标题区——把高亮黄色换成“白字+绿底”，黄色留作后续点缀
+\setbeamercolor{title}{fg=white,bg=seu-green}
+\setbeamercolor{frametitle}{fg=white,bg=seu-green}  % 取消黄底，避免晃眼
+% 底部信息条——反白，保证可读
+\setbeamercolor{footline}{fg=seu-yellow,bg=seu-black}
+% 侧边栏——用“黑底+黄字”制造第二视觉焦点，与主幻灯片内容区分离
+\setbeamercolor{sidebar}{bg=seu-black}
+\setbeamercolor{section in sidebar}{fg=seu-yellow}
+\setbeamercolor{subsection in sidebar}{fg=seu-yellow}
+\setbeamercolor{section in sidebar shaded}{fg=seu-green!60!white}
+\setbeamercolor{subsection in sidebar shaded}{fg=seu-green!60!white}
+% 区块标题——保持绿+白，但 example 区块改用“黄底+黑字”形成反差
+\setbeamercolor{block title}{fg=white,bg=seu-green}
+\setbeamercolor{block title example}{fg=seu-black,bg=seu-yellow}  % 不用白字，避免对比度过低
+% 列表投影小圆点——继续白字，但底色与结构色一致
+\setbeamercolor{item projected}{fg=white,bg=seu-green}
+\mode
+<all>

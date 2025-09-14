@@ -1,0 +1,66 @@
+\documentclass{beamer}
+\usepackage{ctex, hyperref}
+\usepackage[T1]{fontenc}
+
+% other packages
+\usepackage{latexsym,xcolor,multicol,booktabs,calligra}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx,pstricks,listings,stackengine}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{multirow}
+
+\author{学生：毛周祥~~~指导老师：单冯}
+\title{无监督预训练方法在视觉语言模型的应用}
+\subtitle{科学研究方法--课程作业}
+\institute{东南大学计算机拔尖培养基地}
+\date{2025 年 9 月}
+\usepackage{SEU}
+
+% defs
+\def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
+\def\env#1{\texttt{\color{blue}\footnotesize #1}}
+\definecolor{seu-green}{rgb}{0.345,0.459,0.345}      % #587558
+\definecolor{seu-yellow}{rgb}{0.992,0.816,0}         % #fdd000
+\definecolor{seu-black}{rgb}{0.137,0.094,0.082}      % #231815
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{deepblue},
+    emphstyle=\ttfamily\color{deepred},    % Custom highlighting style
+    stringstyle=\color{seu-green},
+    numbers=left,
+    numberstyle=\small\color{seu-black},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}
+
+
+\begin{document}
+
+\kaishu
+\begin{frame}
+    \titlepage
+    \begin{figure}[htpb]
+        \begin{center}
+            \includegraphics[width=0.25\linewidth]{pic/CLTlogo.jpg}
+        \end{center}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \tableofcontents[sectionstyle=show,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded/hide]
+\end{frame}
+
+
+\begin{frame}
+    \begin{center}
+        {\Huge\calligra Thanks!}
+    \end{center}
+\end{frame}
+
+\end{document}
