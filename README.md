@@ -6,6 +6,20 @@
 
 # Usage
 
+## 具体方式（本地）
+
+1. Download Zip 下载这个目录到本地
+2. 解压后 VSCode 打开，安装 LaTeX Workshop 插件、安装 Tex Live
+3. 在 VSCode 中打开 `slide.tex`，即可编译
+
+## 具体方式（Overleaf）
+
+1. Download Zip 下载这个目录到本地
+2. new project -> upload project 上传解压后的目录
+3. 打开 `slide.tex`，即可编译
+
+*Overleaf 免费版可能编译超时，建议本地用*
+
 ## 示例
 
 本项目有示例为 `slide.tex`，可以直接编译。
@@ -15,6 +29,8 @@
 ## 获取 Tex
 
 东大主校区的同学可以校园内网访问 [链接](https://pan.m5d431.cn/share/eYg2t8IO) 下载，内网下载较快。
+
+安装 Tex 大概需要 4h，可以选一个晚上睡觉时安装。
 
 # Thanks
 
