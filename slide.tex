@@ -13,7 +13,7 @@
 \usepackage{multirow}
 
 \author{学生：毛周祥~~~指导老师：单冯}
-\title{无监督预训练方法在视觉语言模型的应用}
+\title{无标注预训练方法在视觉语言模型的应用}
 \subtitle{科学研究方法--课程作业}
 \institute{东南大学计算机拔尖培养基地}
 \date{2025 年 9 月}
@@ -27,6 +27,48 @@
 \definecolor{seu-black}{rgb}{0.137,0.094,0.082}      % #231815
 \definecolor{deepblue}{rgb}{0,0,0.5}
 \definecolor{deepred}{rgb}{0.6,0,0}
+\setbeamerfont{normal text}{size=\Large}
+\setbeamerfont{sub normal text}{size=\large}
+
+% 导言区
+\makeatletter
+\newenvironment{Litemize}{%
+  \par\begingroup
+  \def\beamer@setuplines{\baselineskip=36pt\relax}% 行距
+  \usebeamerfont{itemize item}% 让 beamer 保留标签设置
+  \Large\linespread{1}\selectfont      % 字号 + 行距
+  \begin{itemize}[<+->]
+}{%
+  \end{itemize}%
+  \endgroup
+}
+
+\newcommand{\subtit}[1]{\\[2pt]  % 换行+微小垂直间隙
+   {\normalsize\color{gray!70} #1 \par}}   % 灰色、小一号
+
+
+\newenvironment{litemize}{%
+  \par\begingroup
+  \def\beamer@setuplines{\baselineskip=12pt\relax}%
+  \usebeamerfont{itemize item}%
+  \large\linespread{1.25}\selectfont
+  \begin{itemize}[<+->]
+}{%
+  \end{itemize}%
+  \endgroup
+}
+
+\newenvironment{litemize-p}{%
+  \par\begingroup
+  \def\beamer@setuplines{\baselineskip=12pt\relax}%
+  \usebeamerfont{itemize item}%
+  \large\linespread{1.25}\selectfont
+  \begin{itemize}[]
+}{%
+  \end{itemize}%
+  \endgroup
+}
+\makeatother
 
 \lstset{
     basicstyle=\ttfamily\small,
@@ -42,12 +84,13 @@
 
 \begin{document}
 
+
 \kaishu
 \begin{frame}
     \titlepage
     \begin{figure}[htpb]
         \begin{center}
-            \includegraphics[width=0.25\linewidth]{pic/CLTlogo.jpg}
+            \includegraphics[width=0.33\linewidth]{pic/SEU-09J.png}
         \end{center}
     \end{figure}
 \end{frame}
@@ -56,6 +99,285 @@
     \tableofcontents[sectionstyle=show,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
+\section{研究背景}
+
+\begin{frame}
+
+
+    \frametitle{为什么需要视觉语言模型 (VLM)？}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{Litemize}
+            \item 一句话定义 VLM
+            \item 它能做什么？ 
+                \begin{litemize-p}
+                    \item 图文配对理解
+                    \item 视觉问答（VQA）
+                    \item 图像字幕生成
+                \end{litemize-p}
+        \end{Litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<3->[width=1\linewidth]{pic/VLM-usage.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{无标注预训练方法的 Motivation}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{Litemize}
+            \item 现有方法的局限
+            \begin{litemize-p}
+                \item 依赖昂贵的有标注数据
+                \item 难以扩展到新任务
+                \item 图像区域与文本词汇难以精细对齐
+            \end{litemize-p}
+            \item NLP 领域的成功经验
+            \begin{litemize-p}
+                \item 从 Word2Vec 到 GPT
+                \item 自监督预训练
+            \end{litemize-p}      
+        \end{Litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1->[width=1\linewidth]{pic/why-pretraining-1.png}
+            \end{center}
+        \end{figure}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<5->[width=1\linewidth]{pic/why-pretraining-2.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{大规模无标注预训练 \\
+    ~~~~~~----- 观千剑而后识器，操千曲而后晓声
+    }
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{Litemize}
+            \item 突破标注瓶颈
+            \item \color{seu-yellow}零样本泛化\color{black}涌现
+            \item 统一表示空间
+            \item 通用下游任务范式
+        \end{Litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<4->[width=1\linewidth]{pic/VLM-pretraining-workflow.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+\section{CLIP}
+\begin{frame}
+    \frametitle{CLIP (2021)}
+    \begin{columns}
+        \column{0.6\textwidth}
+        \begin{litemize}
+            \item 目标：学习图文的联合表示
+            \item 方法：对比学习
+            \item 数据集：4 亿对图文数据
+            \item 结果：多种下游任务表现优异
+        \end{litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1->[width=1\linewidth]{pic/CLIP-demo.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{CLIP 的架构}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{litemize}
+            \item 图像编码器：ResNet 或 ViT
+            \item 文本编码器：Text Transformer
+            \item 总结构：双塔架构
+        \end{litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1>[width=1.2\linewidth]{pic/CLIP-architecture-3.png}
+            \end{center}
+        \end{figure}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<2>[width=1\linewidth]{pic/CLIP-architecture-2.png}
+            \end{center}
+        \end{figure}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<3>[width=1\linewidth]{pic/CLIP-architecture-1.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+\begin{frame}
+    \frametitle{CLIP 的训练——对比学习}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{litemize}
+            \item 训练方法：图文对比 (ITC)
+            \item 优化函数：对比损失
+            \item 为什么有效？
+            \begin{litemize-p}
+                \item 损失函数就是考试成绩
+                \item 倒逼模型学习一个合理的图文表示
+                \item 不相关的推远，相关的拉近
+                \item 大规模数据+大模型
+            \end{litemize-p}
+        \end{litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1->[width=1\linewidth]{pic/CLIP-ITC.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+\begin{frame}
+    \frametitle{CLIP 的训练——队列}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{litemize}
+            \item 四亿张图需要两两对比？
+            \item 批次大小受限，负例不足。
+            \item 解决方案：队列 (Queue)
+        \end{litemize}
+        \begin{figure}
+            \begin{center}
+                \includegraphics<4->[width=0.7\linewidth]{pic/GM-contrast.png}
+            \end{center}
+        \end{figure}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1->[width=1\linewidth]{pic/CLIP-ITC.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+\begin{frame}
+    \frametitle{CLIP 的下游使用}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{litemize}
+            \item ZeroShot 图像分类。
+            \item 作为其他任务的编码器。\\
+            eg. Stable Diffusion
+            \item 为什么能迁移？
+            \begin{litemize-p}
+                \item 语言本身就是监督信号
+                \item 只有学习到如何表示图片特征，才能完成预训练任务 \\
+                只有学会了课上讲的内容，才能独立完成实验作业
+            \end{litemize-p}
+        \end{litemize}
+
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1->[width=1\linewidth]{pic/CLIP-zeroshot.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+\section{ALBEF}
+
+\begin{frame}
+    \frametitle{CLIP 的缺陷}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{litemize}
+            \item 细粒度对齐能力不足
+            \begin{litemize-p}
+                \item 训练时只针对图文整体
+                \item 无法精确匹配图像区域与文本词汇
+                \item 难以处理复杂场景
+            \end{litemize-p}
+            \item 数据集质量参差不齐
+            \begin{litemize-p}
+                \item 网络爬取，噪声多
+                \item 不准确标签极大影响模型学习
+            \end{litemize-p}
+        \end{litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                % \includegraphics<1->[width=1\linewidth]{pic/ALBEF-model.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
+\end{frame}
+\begin{frame}
+    \frametitle{ALBEF (2021)}
+\end{frame}
+\begin{frame}
+    \frametitle{ITM + MLM}
+\end{frame}
+\begin{frame}
+    \frametitle{动量蒸馏 (MoD)}
+\end{frame}
+\section{BLIP}
+\begin{frame}
+    \frametitle{BLIP (2022)}
+\end{frame}
+\begin{frame}
+    \frametitle{LM 建模}
+\end{frame}
+\begin{frame}
+    \frametitle{数据自举 (Boostraping)}
+\end{frame}
+\begin{frame}
+    \frametitle{性能对比}
+\end{frame}
+\section{拓展介绍}
+\begin{frame}
+    \frametitle{下游泛化——prompt tuning (2023)}
+\end{frame}
+\begin{frame}
+    \frametitle{下游泛化——Text as Image (2023)}
+\end{frame}
+\begin{frame}
+    \frametitle{应用生态}
+\end{frame}
+
+\section{最后}
+\begin{frame}
+    \frametitle{总结}
+    \begin{itemize}
+        \item VLM 及其预训练方法的重要性
+        \item 为什么预训练任务有效
+        \begin{litemize-p}
+            \item 预训练任务是数学考试
+            \item 训练目标是考高分、倒逼模型学好特征
+            \item 学好特征，更好的迁移到下游任务
+        \end{litemize-p}
+        \item VLM 的演进
+        \begin{litemize-p}
+            \item CLIP：对比学习，双塔架构
+            \item ALBEF：细粒度对齐尝试，动量蒸馏
+            \item BLIP：数据自举
+        \end{litemize-p}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Q \& A}
+\end{frame}
 
 \begin{frame}
     \begin{center}
