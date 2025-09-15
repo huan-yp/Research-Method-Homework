@@ -436,15 +436,45 @@
         \end{center}
     \end{figure}
 \end{frame}
+
 \section{拓展介绍}
+
 \begin{frame}
-    \frametitle{下游泛化——prompt tuning (2023)}
+    \frametitle{下游泛化——prompt tuning (2022)}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{litemize}
+            \item 冻结全部模型参数
+            \item 序列前缀加可学习 token
+            \item 利用注意力机制达到效果。
+            \item 效果不错但解释性差 (这很魔法)
+        \end{litemize}
+        \column{0.5\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1->[width=1\linewidth]{pic/prompt-tuning.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
 \end{frame}
+
 \begin{frame}
     \frametitle{下游泛化——Text as Image (2023)}
-\end{frame}
-\begin{frame}
-    \frametitle{应用生态}
+    \begin{columns}
+        \column{0.45\textwidth}
+        \begin{litemize}
+            \item 图文语义上位于统一空间
+            \item 直接把文本嵌入当作图像来微调
+            \item 几乎无标注成本进一步提升性能
+            \item modality gap 导致效果不佳
+        \end{litemize}
+        \column{0.55\textwidth}
+        \begin{figure}[htpb]
+            \begin{center}
+                \includegraphics<1->[width=1.2\linewidth]{pic/text-as-image.png}
+            \end{center}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \section{最后}
@@ -469,6 +499,7 @@
 
 \begin{frame}
     \frametitle{Q \& A}
+    \text{\Huge Feel free to ask any questions!}
 \end{frame}
 
 \begin{frame}
