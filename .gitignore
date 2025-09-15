@@ -39,5 +39,9 @@ latexmkrc
 *.tmp
 *.temp
 
+# editor
+.vscode/
+.idea/
+
 # Auto-generated directories
 _auto/
