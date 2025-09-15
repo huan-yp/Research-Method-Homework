@@ -317,29 +317,105 @@
         \column{0.5\textwidth}
         \begin{figure}[htpb]
             \begin{center}
-                % \includegraphics<1->[width=1\linewidth]{pic/ALBEF-model.png}
+                \includegraphics<5->[width=1\linewidth]{pic/web-noise.png}
             \end{center}
         \end{figure}
     \end{columns}
 \end{frame}
 \begin{frame}
     \frametitle{ALBEF (2021)}
+    \begin{itemize}
+        \item 第一部分结构与 CLIP 相同
+        \item 增加了跨模态融合模块（Cross Attention）
+        \item 增加了 ITM 和 MLM 的预训练任务，增强 Text-Image 交互。
+    \end{itemize}
+    \begin{figure}
+        \begin{center}
+            \includegraphics<1->[width=0.8\linewidth]{pic/ALBEF.png}
+        \end{center}
+    \end{figure}
 \end{frame}
 \begin{frame}
     \frametitle{ITM + MLM}
+    \begin{litemize}
+        \item Image Text Matching (ITM)
+        \begin{litemize-p}
+            \item ITC 只是大致对齐信息，ITM 可以让模型学会图文交互。
+            \item hard-negative 采样：通过细微差异制造难负例，倒逼模型学习交互
+            \item 在多模态输出层加一个 FC Layer 输出概率分布，然后反向传播
+        \end{litemize-p}
+        \item Masked Language Modeling (MLM)
+        \begin{itemize}
+            \item 随机遮蔽文本中的部分词汇
+            \item 根据剩余信息，预测遮蔽词
+            \item 要准确预测，必须能够关注到图像中相关区域，并理解图文交互逻辑
+        \end{itemize}
+    \end{litemize}
 \end{frame}
 \begin{frame}
     \frametitle{动量蒸馏 (MoD)}
+        \begin{litemize}
+            \item 动量模型提供软标签
+            \begin{figure}[htpb]
+                \begin{center}
+                    \includegraphics<1>[width=1\linewidth]{pic/pseudo-targets.png}
+                \end{center}
+            \end{figure}
+            \item 加权 KL 散度做损失函数
+            \begin{math}
+            \mathcal{L} = \mathbb{E}_{(I,\hat{T})\sim D_{\mathcal{H}}}
+            \bigl[-\log p_{\text{msk}}(I,\hat{T})\bigr]
+            \end{math} \\
+            \begin{math}
+            \mathcal{L}' = (1-\alpha) \mathcal{L}
+            + \alpha\,\mathbb{E}_{(I,\hat{T})\sim D_{\mathcal{K}\!\mathcal{L}}}
+            \bigl[\mathrm{KL}\!\bigl(q_{\text{msk}}(I,\hat{T})\big\|p_{\text{msk}}(I,\hat{T})\bigr)\bigr]
+            \end{math}
+            \item 天然降噪不过罚噪声样本
+        \end{litemize}
+        
 \end{frame}
+
+
 \section{BLIP}
 \begin{frame}
     \frametitle{BLIP (2022)}
+    \begin{itemize}
+        \item ALBEF 并没有从根本上解决数据噪声问题
+        \item BLIP 提出\color{seu-yellow}数据自举 (Bootstrapping) \color{black}方法
+        \item 为了做出改进，BLIP 将 ALBEF 的 MLM 任务更换为了 LM (语言建模) 任务，以便完成自举
+    \end{itemize}
+    \begin{figure}
+        \begin{center}
+            \includegraphics<1->[width=0.8\linewidth]{pic/BLIP-architecture.png}
+        \end{center}
+    \end{figure}
 \end{frame}
 \begin{frame}
     \frametitle{LM 建模}
+    \begin{itemize}
+        \item Causal Self-Attention，单向预测
+        \item Cross Attention，融合图片信息，图文交互
+        \item 生成式损失，生成下一个词的分布，交叉熵损失
+    \end{itemize}
+    \begin{figure}
+        \begin{center}
+            \includegraphics<1->[width=0.8\linewidth]{pic/BLIP-LM.png}
+        \end{center}
+    \end{figure}
 \end{frame}
 \begin{frame}
     \frametitle{数据自举 (Boostraping)}
+    \begin{itemize}
+        \item 少量有标注数据预训练
+        \item 对预训练的模型做两种任务的 fine-tuning
+        \item 用 Captizoner 生成伪标签，用 Filter 过滤
+    \end{itemize}
+    \begin{figure}
+        \begin{center}
+            \includegraphics<1->[width=0.8\linewidth]{pic/BLIP-bootstrapping.png}
+        \end{center}
+    \end{figure}
 \end{frame}
 \begin{frame}
     \frametitle{性能对比}
