@@ -39,6 +39,9 @@ latexmkrc
 *.tmp
 *.temp
 
+# scripts
+.venv/
+
 # editor
 .vscode/
 .idea/

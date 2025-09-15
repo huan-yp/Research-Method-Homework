@@ -408,17 +408,33 @@
     \frametitle{数据自举 (Boostraping)}
     \begin{itemize}
         \item 少量有标注数据预训练
-        \item 对预训练的模型做两种任务的 fine-tuning
-        \item 用 Captizoner 生成伪标签，用 Filter 过滤
+        \item 对预训练的模型做不同的 fine-tuning 得到 Filter 和 Captizoner
+        \item 用 Captizoner 生成伪标签，用 Filter 过滤，保留能通过过滤的所有数据对
     \end{itemize}
     \begin{figure}
         \begin{center}
-            \includegraphics<1->[width=0.8\linewidth]{pic/BLIP-bootstrapping.png}
+            \includegraphics<1->[width=1\linewidth]{pic/BLIP-bootstrapping.png}
         \end{center}
     \end{figure}
 \end{frame}
 \begin{frame}
     \frametitle{性能对比}
+    \begin{itemize}
+        \item 下游任务：图文检索 (TR) 和图像检索 (IR)
+        \item 数据集：Flickr30K
+        \item 评价指标：R1 召回率 (一次性正确率)
+    \end{itemize}
+    \begin{figure}
+        \begin{center}
+            \includegraphics<1>[width=0.8\linewidth]{pic/compare-acc.png}
+        \end{center}
+    \end{figure}
+    \vspace{-2em}
+    \begin{figure}
+        \begin{center}
+            \includegraphics<2>[width=0.8\linewidth]{pic/compare-err.png}
+        \end{center}
+    \end{figure}
 \end{frame}
 \section{拓展介绍}
 \begin{frame}
