@@ -16,7 +16,6 @@
 *.xdv
 
 # PDF and other output files
-*.pdf
 *.dvi
 *.ps
 
